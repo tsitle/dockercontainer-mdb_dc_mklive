@@ -1,6 +1,6 @@
 # Bash scripts for running Docker Image mdb-mklive
 
-The **./mklive.sh** script is builds a customized **mdb-live** Docker Image.
+The **mklive.sh** script builds a customized **mdb-live** Docker Image.
 
 The **mdb-live** Docker Image provides a fully featured dockerized Mailserver including
 
@@ -23,13 +23,16 @@ The **mdb-live** Docker Image provides a fully featured dockerized Mailserver in
 (for more details see [Technical background](#technical-background))
 
 ## Installation
-1. Clone this repository to your harddrive
-2. Copy the file _config-SAMPLE.sh_ to _config.sh_  
-3. Edit _config.sh_ if you want to change the defaults  
-4. run  
+1. Clone this repository to your harddrive, e.g. by running  
+``$ git clone https://github.com/tsitle/dockercontainer-mdb_dc_mklive.git``  
+2. Change the working directory, e.g. by running  
+``$ cd dockercontainer-mdb_dc_mklive``  
+3. Copy the file _config-SAMPLE.sh_ to _config.sh_  
+4. Edit _config.sh_ if you want to change the defaults  
+5. run  
 ``$ ./mklive.sh``  
 
-At this point the Docker Image **mdb-live** has been installed.  
+At this point the Docker Image **mdb-live** should have been installed.  
 You could remove the Docker Image **mdb-install** now if you wanted to.  
 
 Now you'll need to set the Docker Container environment up:  
