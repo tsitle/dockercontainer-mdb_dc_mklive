@@ -30,7 +30,7 @@ The **mdb-live** Docker Image provides a fully featured dockerized Mailserver in
 3. Copy the file _config-SAMPLE.sh_ to _config.sh_  
 4. Edit _config.sh_ if you want to change the defaults  
 5. run  
-``$ ./mklive.sh``  
+``$ sudo ./mklive.sh``  
 
 At this point the Docker Image **mdb-live** should have been installed.  
 You could remove the Docker Image **mdb-install** now if you wanted to.  
@@ -42,7 +42,8 @@ Now you'll need to set the Docker Container environment up:
 _build-output/dockercontainer/docker-compose.yaml_ and  
 _build-output/dockercontainer/mariadb-dbs-vanilla.tgz_ and  
 _build-output/dockercontainer/dc-mdb.sh_  
-from the **mdb-dc-mklive** directory to _./dockercontainer-mailserver/_  
+from the **mdb-dc-mklive** directory to  
+_./dockercontainer-mailserver/_  
 
 ## Running the Mailserver
 ### Using the Bash script dc-mdb.sh
@@ -50,24 +51,29 @@ Change the working directory, e.g. by running
 ``$ cd ./dockercontainer-mailserver``  
 
 To create and start the Mail- and Database-Server's Docker Containers run  
-``$ ./dc-mdb.sh up``  
+``$ sudo ./dc-mdb.sh up``  
 Please note that it will take about 30s until all services inside the mdb-live container are running.  
-You can verify by running  
-``$ ./dc-mdb.sh logs -f modo``  
+When started for the first time ClamAV will update its virus signatures which can take a couple of minutes.  
+
+Until all services are running you'll see "502 Bad Gateway" when accessing Modoboa's Webinterface.
+
+You can verify whether all services have been started by running  
+``$ sudo ./dc-mdb.sh logs -f modo``  
 and wait until you see the line  
-```All services have been started```
+```All services have been started```  
+Then hit CTRL-C to detach from the logs.
 
 To stop the Mail- and Database-Server run  
-``$ ./dc-mdb.sh stop``  
+``$ sudo ./dc-mdb.sh stop``  
 
 To start the Mail- and Database-Server again run  
-``$ ./dc-mdb.sh start``  
+``$ sudo ./dc-mdb.sh start``  
 
 To remove the Mail- and Database-Server's Docker Containers again run  
-``$ ./dc-mdb.sh down``  
+``$ sudo ./dc-mdb.sh down``  
 
 For troubleshooting you can access the console output from the Docker Container's startup script by running:  
-``$ ./dc-mdb.sh logs``  
+``$ sudo ./dc-mdb.sh logs``  
 
 ### Using docker-compose directly
 Change the working directory, e.g. by running  
@@ -77,19 +83,19 @@ Extract the raw DB files
 ``$ tar xf mariadb-dbs-vanilla.tgz``  
 
 To create and start the Mail- and Database-Server's Docker Containers run  
-``$ docker-compose -p mdb up --no-start && docker-compose -p mdb start``  
+``$ sudo docker-compose -p mdb up --no-start && docker-compose -p mdb start``  
 
 To stop the Mail- and Database-Server run  
-``$ docker-compose -p mdb stop``  
+``$ sudo docker-compose -p mdb stop``  
 
 To start the Mail- and Database-Server again run  
-``$ docker-compose -p mdb start``  
+``$ sudo docker-compose -p mdb start``  
 
 To remove the Mail- and Database-Server's Docker Containers again run  
-``$ docker-compose -p mdb down``  
+``$ sudo docker-compose -p mdb down``  
 
 For troubleshooting you can access the console output from the Docker Container's startup script by running:  
-``$ docker-compose -p mdb logs modo``  
+``$ sudo docker-compose -p mdb logs modo``  
 
 It is highly recommended to remove the file _mariadb-dbs-vanilla.tgz_ after you have verified that everything is working.  
 Accidently unpacking the archive after you have set your mailserver up would overwrite the databases and therefor delete your domains, users, etc.
@@ -197,19 +203,26 @@ remove DB dumps from Install-Image
 * create Docker Image **mdb-live** based on **mdb-install**  
 * create tarball of Docker Image **mdb-live** - suitable for importing the image with Docker  
 
+## Avoiding the necessity of sudo
+To run Docker commands without having to use sudo all the time,  
+you'll need to add your user to the 'docker' usergroup:
+
+```
+$ sudo usermod -a -G docker <USERNAME>
+```
+Then log out from your current shell (or close the terminal window)  
+and log in again (or open a new terminal window).
+
 ## Links
 ### Modoboa documentation
 - [Modoboa documentation](https://modoboa.readthedocs.io/)
 
 ### GitHub
 - GitHub Repository for Docker Image [mdb-mkinstall](https://github.com/tsitle/dockerimage-mdb_mkinstall)
-- GitHub Repository for Docker Image [mdb-mklive](https://github.com/tsitle/dockerimage-mdb_mklive)
 - GitHub Repository for Docker Container [mdb-dc-mkinstall](https://github.com/tsitle/dockercontainer-mdb_dc_mkinstall)
+- GitHub Repository for Docker Image [mdb-mklive](https://github.com/tsitle/dockerimage-mdb_mklive)
+- GitHub Repository for Docker Container [mdb-dc-mklive](https://github.com/tsitle/dockercontainer-mdb_dc_mklive)
 
 ### Docker Hub
-- [mdb-mkinstall](https://hub.docker.com/r/tsle/mdb-mkinstall "Docker Hub Repository for Docker Image mdb-mkinstall")
-- [mdb-install](https://hub.docker.com/r/tsle/mdb-install "Docker Hub Repository for Docker Image mdb-install")
-- [mdb-mariadb](https://hub.docker.com/r/tsle/mdb-mariadb "Docker Hub Repository for Docker Image mdb-mariadb")
-- [mdb-nginx](https://hub.docker.com/r/tsle/mdb-nginx "Docker Hub Repository for Docker Image mdb-nginx")
-- [mdb-mklive](https://hub.docker.com/r/tsle/mdb-mklive "Docker Hub Repository for Docker Image mdb-mklive")
+- Docker Hub Repositories [tsle/](https://hub.docker.com/r/tsle/)
 
