@@ -1,4 +1,20 @@
-# Bash scripts for running Docker Image mdb-mklive
+# Builds a customized Mailserver based on Modoboa
+
+## Table of contents
+* [About](#about)
+* [Installation](#installation)
+* [Running the Mailserver](#running-the-mailserver)
+* [Accessing Modoboa's Webinterface](#webinterface)
+* [Enabling DKIM-signed Emails](#dkim)
+* [Using CalDAV and CardDAV for synchronized calendars and contacts](#using-caldav-and-carddav)
+* [DNS Settings](#dns-settings)
+* [Replacing SSL-Certificates and -Keys](#replacing-ssl-certs)
+* [Technical background](#technical-background)
+* [Avoiding the necessity of sudo](#avoiding-the-necessity-of-sudo)
+* [Supported CPU Architectures](#supported-cpu-architectures)
+* [Links](#links)
+
+## <a name="about"></a>About
 
 The **mklive.sh** script builds a customized **mdb-live** Docker Image.
 
@@ -22,7 +38,7 @@ The **mdb-live** Docker Image provides a fully featured dockerized Mailserver in
 
 (for more details see [Technical background](#technical-background))
 
-## Installation
+## <a name="installation"></a>Installation
 1. Clone this repository to your harddrive, e.g. by running  
 ``$ git clone https://github.com/tsitle/dockercontainer-mdb_dc_mklive.git``  
 2. Change the working directory, e.g. by running  
@@ -45,7 +61,11 @@ _build-output/dockercontainer/dc-mdb.sh_
 from the **mdb-dc-mklive** directory to  
 _./dockercontainer-mailserver/_  
 
-## Running the Mailserver
+## <a name="running-the-mailserver"></a>Running the Mailserver
+If you're running the mailserver on an ARM host you might need a more recent version of **docker-compose**, since currently at least Ubuntu 18.04 ships with an outdated and buggy version of **docker-compose**.  
+So if you see an error message that begins with "free(): invalid pointer" you definitely need a newer version.  
+See GitHub Repositories [docker-compose-arm](#github-docker-compose-arm) below.
+
 ### Using the Bash script dc-mdb.sh
 Change the working directory, e.g. by running  
 ``$ cd ./dockercontainer-mailserver``  
@@ -117,7 +137,7 @@ Default login for Modoboa's Webinterface:
   Password: password  
 ```
 
-## Enabling DKIM-signed Emails
+## <a name="dkim"></a>Enabling DKIM-signed Emails
 When creating a new domain you may enable DKIM-signed emails by activating the option **Enable DKIM signing** in the create domain entry dialog in Modoboa's webinterface.  
 You may also enable that option for existing domains.  
 
@@ -125,7 +145,7 @@ A key length of 2048 is advisable since 1024 is considered weak and 4096 may not
 
 Also see the section [DNS Settings](#dns-settings)
 
-## Using CalDAV and CardDAV for synchronized calendars and contacts
+## <a name="using-caldav-and-carddav"></a>Using CalDAV and CardDAV for synchronized calendars and contacts
 ### CalDAV
 1. Log into [Modoboa's Webinterface](#webinterface) as a
 regular user (i.e. not the admin user)
@@ -177,7 +197,7 @@ For using DKIM-signed emails you'll need to add a TXT Record to your webhoster's
 4. In the tab **DNS** click on **Show key** next to **DKIM key**  
 5. Use the text in the second box (**Bind/named format**) for adding the TXT Record
 
-## Replacing SSL-Certificates and -Keys
+## <a name="replacing-ssl-certs"></a>Replacing SSL-Certificates and -Keys
 Before replacing SSL-Certificates and -Keys in the Docker Container's mountpoints  
 _mountpoints-modo/ssl-certs/_ and _mountpoints-modo/ssl-keys/_,  
 you should  
@@ -203,7 +223,7 @@ remove DB dumps from Install-Image
 * create Docker Image **mdb-live** based on **mdb-install**  
 * create tarball of Docker Image **mdb-live** - suitable for importing the image with Docker  
 
-## Avoiding the necessity of sudo
+## <a name="avoiding-the-necessity-of-sudo"></a>Avoiding the necessity of sudo
 To run Docker commands without having to use sudo all the time,  
 you'll need to add your user to the 'docker' usergroup:
 
@@ -213,7 +233,15 @@ $ sudo usermod -a -G docker <USERNAME>
 Then log out from your current shell (or close the terminal window)  
 and log in again (or open a new terminal window).
 
-## Links
+Be aware of possible security implications though.  
+See [Docker daemon attack surface link](#docker-daemon-attack-surface) below for more information.
+
+## <a name="supported-cpu-architectures"></a>Supported CPU Architectures
+* amd64/x86_64
+* aarch64/arm64v8/arm64
+* armv7l/arm32v7/armhf
+
+## <a name="links"></a>Links
 ### Modoboa documentation
 - [Modoboa documentation](https://modoboa.readthedocs.io/)
 
@@ -222,7 +250,12 @@ and log in again (or open a new terminal window).
 - GitHub Repository for Docker Container [mdb-dc-mkinstall](https://github.com/tsitle/dockercontainer-mdb_dc_mkinstall)
 - GitHub Repository for Docker Image [mdb-mklive](https://github.com/tsitle/dockerimage-mdb_mklive)
 - GitHub Repository for Docker Container [mdb-dc-mklive](https://github.com/tsitle/dockercontainer-mdb_dc_mklive)
+- GitHub Repository for docker-compose binary for aarch64/arm64v8/arm64 [dockercompose-binary_and_dockerimage-aarch64](https://github.com/tsitle/dockercompose-binary_and_dockerimage-aarch64)
+- GitHub Repository for docker-compose binary for armv7l/arm32v7/armhf [dockercompose-binary_and_dockerimage-aarch64](https://github.com/tsitle/dockercompose-binary_and_dockerimage-armv7l)
 
 ### Docker Hub
 - Docker Hub Repositories [tsle/](https://hub.docker.com/r/tsle/)
+
+### <a name="docker-daemon-attack-surface"></a>Docker daemon attack surface
+- [https://docs.docker.com/engine/security/security/#docker-daemon-attack-surface](https://docs.docker.com/engine/security/security/#docker-daemon-attack-surface)
 
