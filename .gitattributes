@@ -12,6 +12,8 @@
 *.gz binary
 *.sql.gz.* binary
 *.GZ binary
+*.tar binary
+*.TAR binary
 *.tgz binary
 *.TGZ binary
 *.zip binary
