@@ -1,4 +1,4 @@
-# Builds a customized Mailserver based on Modoboa
+# Builds a customized Mailserver Docker Image based on Modoboa
 
 ## Table of contents
 * [About](#about)
