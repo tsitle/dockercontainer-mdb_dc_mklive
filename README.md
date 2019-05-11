@@ -62,9 +62,9 @@ from the **mdb-dc-mklive** directory to
 _./dockercontainer-mailserver/_  
 
 ## <a name="running-the-mailserver"></a>Running the Mailserver
-If you're running the mailserver on an ARM host you might need a more recent version of **docker-compose**, since currently at least Ubuntu 18.04 ships with an outdated and buggy version of **docker-compose**.  
-So if you see an error message that begins with "free(): invalid pointer" you definitely need a newer version.  
-See GitHub Repositories [docker-compose-arm](#github-docker-compose-arm) below.
+If you experience problems with **docker-compose** you might need a more recent version of **docker-compose**.  
+E.g. if you see an error message that begins with "free(): invalid pointer" when using **docker-compose** you definitely need a newer version.  
+See GitHub Repositories for [docker-compose](#links) below.
 
 ### Using the Bash script dc-mdb.sh
 Change the working directory, e.g. by running  
@@ -195,7 +195,8 @@ For using DKIM-signed emails you'll need to add a TXT Record to your webhoster's
 2. Go to the **Domains** page  
 3. Click on your domain's entry  
 4. In the tab **DNS** click on **Show key** next to **DKIM key**  
-5. Use the text in the second box (**Bind/named format**) for adding the TXT Record
+5. Use the text in the second box (**Bind/named format**) for adding the TXT Record.  
+Depending on your webhoster you might need to strip the text from all quotemarks, line-breaks and tabulator-chars.
 
 ## <a name="replacing-ssl-certs"></a>Replacing SSL-Certificates and -Keys
 Before replacing SSL-Certificates and -Keys in the Docker Container's mountpoints  
@@ -245,13 +246,15 @@ See [Docker daemon attack surface link](#docker-daemon-attack-surface) below for
 ### Modoboa documentation
 - [Modoboa documentation](https://modoboa.readthedocs.io/)
 
-### GitHub
-- GitHub Repository for Docker Image [mdb-mkinstall](https://github.com/tsitle/dockerimage-mdb_mkinstall)
-- GitHub Repository for Docker Container [mdb-dc-mkinstall](https://github.com/tsitle/dockercontainer-mdb_dc_mkinstall)
-- GitHub Repository for Docker Image [mdb-mklive](https://github.com/tsitle/dockerimage-mdb_mklive)
-- GitHub Repository for Docker Container [mdb-dc-mklive](https://github.com/tsitle/dockercontainer-mdb_dc_mklive)
-- GitHub Repository for docker-compose binary for aarch64/arm64v8/arm64 [dockercompose-binary_and_dockerimage-aarch64](https://github.com/tsitle/dockercompose-binary_and_dockerimage-aarch64)
-- GitHub Repository for docker-compose binary for armv7l/arm32v7/armhf [dockercompose-binary_and_dockerimage-aarch64](https://github.com/tsitle/dockercompose-binary_and_dockerimage-armv7l)
+### GitHub Repositories
+- Docker Image [mdb-mkinstall](https://github.com/tsitle/dockerimage-mdb_mkinstall)
+- Docker Container [mdb-dc-mkinstall](https://github.com/tsitle/dockercontainer-mdb_dc_mkinstall)
+- Docker Image [mdb-mklive](https://github.com/tsitle/dockerimage-mdb_mklive)
+- Docker Container [mdb-dc-mklive](https://github.com/tsitle/dockercontainer-mdb_dc_mklive)
+- **docker-compose** binary for  
+[amd64/x86_64](https://github.com/tsitle/dockercompose-binary_and_dockerimage-amd64)  
+[aarch64/arm64v8/arm64](https://github.com/tsitle/dockercompose-binary\_and\_dockerimage-aarch64)  
+[armv7l/arm32v7/armhf](https://github.com/tsitle/dockercompose-binary_and_dockerimage-armv7l)
 
 ### Docker Hub
 - Docker Hub Repositories [tsle/](https://hub.docker.com/r/tsle/)
